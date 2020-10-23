@@ -1,0 +1,10 @@
+# operator system files
+.DS_Store
+
+# exclude ide filse
+.buildpath
+.project
+.idea
+.vscode
+
+/db/mysql

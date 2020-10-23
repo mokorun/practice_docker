@@ -1,0 +1,40 @@
+version: "3" # docker-compose ver
+
+#networks:
+#  backend:
+#  frontend:
+
+services:
+  db:
+    image: mysql:latest
+    volumes:
+      - ./db/mysql:/var/lib/mysql
+    #restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - "8888:80"
+    depends_on:
+      - db
+  nginx: #seivice name
+    #container_name: "nginx" #container name
+    image: nginx:latest
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      #- ./nginx/html:/usr/share/nginx/html
+      - ./nginx/html:/var/www/html
+    ports:
+      - "8080:80"
+  php:
+    image: php:7.4-fpm
+    volumes:
+      #- ./nginx/html:/usr/share/nginx/html
+      - ./nginx/html:/var/www/html
+      #- ./php/php.ini:/usr/local/etc/php/php.ini
+    depends_on:
+      - db
+    #depends_on:
+    #  - php
+  #image: ubuntu:latest
